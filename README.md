@@ -8,9 +8,10 @@
 ## Issues Note
 if found this pytorch error (Commonly found on devices that do not have NVDIA GPUs.)
 
-<code> OSError: [WinError 126] The specified module could not be found. Error loading .../fbgemm.dll or one of its dependencies </code>
+<code>OSError: [WinError 126] The specified module could not be found. Error loading .../fbgemm.dll or one of its dependencies </code>
 
 install anaconda or miniconda and run this command in anaconda prompt
-<code> conda install pytorch torchvision cpuonly -c pytorch </code>
+
+<code>conda install pytorch torchvision cpuonly -c pytorch </code>
 
 
