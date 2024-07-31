@@ -3,14 +3,12 @@ import os, cv2, time
 import numpy as np
 from ultralytics import YOLO, solutions
 
-
 # load model
 model = YOLO("assets/model/yolov9s.pt")
-
+helmet_model = YOLO("assets/model/helmet.pt")
 # load source
-cap = cv2.VideoCapture("assets/video/sample.mp4")
+cap = cv2.VideoCapture("assets/video/sample2.mp4")
 assert cap.isOpened(), "Error reading video file"
-
 
 # detect speed
 speed_obj = solutions.SpeedEstimator(
@@ -105,6 +103,8 @@ while cap.isOpened():
                 counting_list.append(id)
                 counting += 1
                 imcoppy = im_def[y1 : y2, x1 : x2]
+                # if int(clss) == 3 :
+                #     detect = helmet_model.track(imcoppy, persist=False, show=True)
                 cv2.imwrite(os.path.join("./export/counting/" , str(counting) + ".jpg"), imcoppy)
 
 

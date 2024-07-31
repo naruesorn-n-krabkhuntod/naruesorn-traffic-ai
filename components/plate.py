@@ -3,7 +3,7 @@ import easyocr
 from ultralytics import YOLO, solutions
 
 ocr = easyocr.Reader(['th'], gpu=False)
-plate_model = YOLO("plate_yolov8n.pt")
+plate_model = YOLO("assets/model/plate_yolov8n.pt")
 
 
 def readPlateNumber(source):
@@ -17,7 +17,7 @@ def readPlateNumber(source):
     return (_x,_y,_w,_h), image
 
 
-im0 = cv2.imread('carplate1.jpg')
+im0 = cv2.imread('export/counting/5.jpg')
 (x,y,w,h), im1 = readPlateNumber(im0)
 print(x,y,w,h)
 cv2.imshow('test', im1)

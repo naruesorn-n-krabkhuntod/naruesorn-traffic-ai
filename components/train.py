@@ -2,8 +2,8 @@ from ultralytics import YOLO
 
 
 # model = YOLO('yolov8n.yaml')
-model = YOLO('yolov8n.pt')
-path = '/home/naruesorn/Desktop/yolov8-thaitrafiic-analysis/datasets/face-detection.v1i.yolov8/data.yaml'
+model = YOLO('../assets/model/yolov9t.pt')
+path = 'P:/iplus.Traffic.Ai/assets/dataset/HelmetDetectionImageDataset.v1i.yolov9/data.yaml'
 results = model.train(data=path, epochs=3)
 
 
