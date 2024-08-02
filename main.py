@@ -6,7 +6,6 @@ from ultralytics import YOLO
 
 # load model
 model = YOLO("assets/model/yolov9s.pt")
-helmet_model = YOLO("assets/model/helmet.pt")
 
 # load source
 cap = cv2.VideoCapture("assets/video/sample.mp4")
@@ -92,6 +91,7 @@ while cap.isOpened():
                 imcoppy = im_def[y1 : y2, x1 : x2]
                 if clss == 3 : 
                     imcoppy2 = im_def[y1 : y1+((y2-y1)//3), x1 : x2]
+                    cv2.putText(imcoppy2, "1", (20,20), 1, 1, (0,255,0), 2)
                     cv2.imshow("motocycle", imcoppy2 )
                 cv2.imwrite(os.path.join("./export/counting/" , str(counting) + ".jpg"), imcoppy)
 
