@@ -2,12 +2,25 @@
 import os, cv2, time
 import numpy as np
 from ultralytics import YOLO
+from keras import models
+
+
+# setup
+print("setup project")
+np.set_printoptions(suppress=True)
+os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
 
 
 # load model
+print("load yolo model")
 model = YOLO("assets/model/yolov9s.pt")
 
+print("load keras model")
+hmodel = models.load_model("keras_Model.h5", compile=False, safe_mode=False)
+class_names = open("labels.txt", "r").readlines()
+
 # load source
+print("import source")
 cap = cv2.VideoCapture("assets/video/sample.mp4")
 assert cap.isOpened(), "Error reading video file"
 
@@ -28,6 +41,7 @@ speed_time = {}
 speed_list = {}
 counting = 0
 
+print("start detection loop")
 while cap.isOpened():
     success, im0 = cap.read()
     im1 = im0.copy()
@@ -91,7 +105,19 @@ while cap.isOpened():
                 imcoppy = im_def[y1 : y2, x1 : x2]
                 if clss == 3 : 
                     imcoppy2 = im_def[y1 : y1+((y2-y1)//3), x1 : x2]
-                    cv2.putText(imcoppy2, "1", (20,20), 1, 1, (0,255,0), 2)
+                    # cv2.putText(imcoppy2, "1", (20,20), 1, 1, (0,255,0), 2)
+                    imcoppy2 = cv2.resize(imcoppy2, (224, 224), interpolation=cv2.INTER_AREA)
+                    imcoppy2 = np.asarray(imcoppy2, dtype=np.float32).reshape(1, 224, 224, 3)
+                    imcoppy2 = (imcoppy2 / 127.5) - 1
+
+                    prediction = hmodel.predict(imcoppy2)
+                    index = np.argmax(prediction)
+                    class_name = class_names[index]
+                    confidence_score = prediction[0][index]
+
+                    print("Class:", class_name[2:], end="")
+                    print("Confidence Score:", str(np.round(confidence_score * 100))[:-2], "%")
+
                     cv2.imshow("motocycle", imcoppy2 )
                 cv2.imwrite(os.path.join("./export/counting/" , str(counting) + ".jpg"), imcoppy)
 

@@ -6,6 +6,3 @@ lapx
 easyocr
 fuzzywuzzy
 opencv-contrib-python
-keras
-tensorflow
-keras.models

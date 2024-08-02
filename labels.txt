@@ -1,0 +1,2 @@
+0 with helmet
+1 no helmet
